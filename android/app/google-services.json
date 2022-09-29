@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "416701562134",
+    "project_id": "domart-68b7f",
+    "storage_bucket": "domart-68b7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416701562134:android:a272cb364209e1c8ce2437",
+        "android_client_info": {
+          "package_name": "com.example.real_estate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416701562134-v6gco9fqubgk6i8e7llke5rsei5ls9ru.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjCDlpZP_EAN6cQbAIAe5bwpeRrPI1ciQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416701562134-v6gco9fqubgk6i8e7llke5rsei5ls9ru.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
