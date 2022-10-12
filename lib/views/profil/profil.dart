@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'publish.dart';
 
@@ -7,36 +8,45 @@ class Profil extends StatefulWidget {
   final String? title;
 
   @override
-  _ProfilState createState() => new _ProfilState();
+  _ProfilState createState() => _ProfilState();
 }
 
 class _ProfilState extends State<Profil> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
 
+    final user = FirebaseAuth.instance.currentUser;
+
+    // Name, email address, and profile photo URL
+    final name = user!.displayName;
+    final email = user!.email;
+    final photoUrl = user!.photoURL;
+
+    // Check if user's email is verified
+    final emailVerified = user!.emailVerified;
+
+    // The user's ID, unique to the Firebase project. Do NOT use this value to
+    // authenticate with your backend server, if you have one. Use
+    // User.getIdToken() instead.
+    final uid = user!.uid;
+
     final List<String> list = [
       'https://cdn.pixabay.com/photo/2013/10/09/02/27/lake-192990_1280.jpg',
       'https://cdn.pixabay.com/photo/2014/11/21/17/17/house-540796_1280.jpg',
       'https://cdn.pixabay.com/photo/2016/11/18/17/20/living-room-1835923_1280.jpg',
-      'assets/images/oHouse3.jpg',
-      'assets/images/oHouse4.jpg'
+      'https://cdn.pixabay.com/photo/2013/11/27/09/49/iceland-219182_1280.jpg',
+      'https://cdn.pixabay.com/photo/2017/07/09/03/19/home-2486092_1280.jpg'
     ];
 
-    return new Container(
-      decoration: new BoxDecoration(
-          gradient: new LinearGradient(
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
         begin: Alignment.topRight,
-        end: new Alignment(
+        end: const Alignment(
             0.0, 1.0), // 10% of the width, so there are ten blinds.
         colors: [
           const Color(0xFFC5C5C5),
@@ -44,13 +54,13 @@ class _ProfilState extends State<Profil> {
         ], // whitish to gray
         tileMode: TileMode.clamp, // repeats the gradient over the canvas
       )),
-      child: new Stack(
+      child: Stack(
         children: <Widget>[
-          new ClipPath(
-            clipper: new ArcClipper(),
-            child: new Stack(
+          ClipPath(
+            clipper: ArcClipper(),
+            child: Stack(
               children: <Widget>[
-                new Image.asset(
+                Image.asset(
                   'assets/images/profilebg.jpg',
                   fit: BoxFit.fitHeight,
                   height: _height / 2.5,
@@ -59,12 +69,11 @@ class _ProfilState extends State<Profil> {
               ],
             ),
           ),
-          new Align(
+          Align(
             alignment: Alignment.topRight,
-            child: new Padding(
-              padding:
-                  new EdgeInsets.only(top: _height / 3.6, right: _width / 20),
-              child: new FloatingActionButton(
+            child: Padding(
+              padding: EdgeInsets.only(top: _height / 3.6, right: _width / 20),
+              child: FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -72,108 +81,106 @@ class _ProfilState extends State<Profil> {
                     ),
                   );
                 },
-                child: new Icon(Icons.add),
+                child: Icon(Icons.add),
                 backgroundColor: Colors.black87,
               ),
             ),
           ),
-          new Padding(
-            padding: new EdgeInsets.only(top: _height / 3.3, left: _width / 20),
-            child: new Material(
-              child: new CircleAvatar(
-                  backgroundImage: new AssetImage(
-                    'assets/images/jackman.png',
+          Padding(
+            padding: EdgeInsets.only(top: _height / 3.3, left: _width / 20),
+            child: Material(
+              child: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    '${photoUrl}',
                   ),
                   radius: _height / 12),
               elevation: 15.0,
               color: Colors.transparent,
-              borderRadius:
-                  new BorderRadius.all(new Radius.circular(_height / 12)),
+              borderRadius: BorderRadius.all(Radius.circular(_height / 12)),
             ),
           ),
-          new Scaffold(
+          Scaffold(
             backgroundColor: Colors.transparent,
-            body: new Container(
-              child: new Stack(
+            body: Container(
+              child: Stack(
                 children: <Widget>[
-                  new Padding(
-                    padding: new EdgeInsets.only(left: _width / 20),
-                    child: new Column(
+                  Padding(
+                    padding: EdgeInsets.only(left: _width / 20),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        new SizedBox(
+                        SizedBox(
                           height: _height / 30,
                         ),
-                        new Text(
-                          'Hugh Jackman',
-                          style: new TextStyle(
-                              fontSize: 18.0, color: Colors.white),
+                        Text(
+                          '${name}',
+                          style: TextStyle(fontSize: 18.0, color: Colors.white),
                         ),
-                        new SizedBox(
+                        SizedBox(
                           height: _height / 100,
                         ),
-                        new Row(
+                        Row(
                           children: <Widget>[
-                            new SHLabel(
-                              label: 'ACTOR',
+                            SHLabel(
+                              label: '${uid}',
                             ),
-                            new SHLabel(
-                              label: 'PRODUCER',
+                            SHLabel(
+                              label: '${email}',
                             ),
                           ],
                         ),
-                        new SizedBox(
+                        SizedBox(
                           height: _height / 50,
                         ),
-                        new Row(
+                        Row(
                           children: <Widget>[
-                            new Text(
+                            Text(
                               'MOVIES',
-                              style: new TextStyle(
+                              style: TextStyle(
                                   fontSize: 10.0, color: Colors.white),
                             ),
-                            new SizedBox(
+                            SizedBox(
                               width: _width / 30,
                             ),
-                            new Text(
+                            Text(
                               '56  ',
-                              style: new TextStyle(
+                              style: TextStyle(
                                   fontSize: 10.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
-                            new SizedBox(
+                            SizedBox(
                               width: _width / 30,
                             ),
-                            new Text(
+                            Text(
                               'PLAYS',
-                              style: new TextStyle(
+                              style: TextStyle(
                                   fontSize: 10.0, color: Colors.white),
                             ),
-                            new SizedBox(
+                            SizedBox(
                               width: _width / 30,
                             ),
-                            new Text(
+                            Text(
                               '29  ',
-                              style: new TextStyle(
+                              style: TextStyle(
                                   fontSize: 10.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
-                            new SizedBox(
+                            SizedBox(
                               width: _width / 30,
                             ),
-                            new Text(
+                            Text(
                               'MUSICLS',
-                              style: new TextStyle(
+                              style: TextStyle(
                                   fontSize: 10.0, color: Colors.white),
                             ),
-                            new SizedBox(
+                            SizedBox(
                               width: _width / 30,
                             ),
-                            new Text(
+                            Text(
                               '11  ',
-                              style: new TextStyle(
+                              style: TextStyle(
                                   fontSize: 10.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -183,46 +190,46 @@ class _ProfilState extends State<Profil> {
                       ],
                     ),
                   ),
-                  new Padding(
-                    padding: new EdgeInsets.only(
-                        top: _height / 3.5, left: _width / 2.2),
-                    child: new Row(
+                  Padding(
+                    padding:
+                        EdgeInsets.only(top: _height / 3.5, left: _width / 2.2),
+                    child: Row(
                       children: <Widget>[
-                        new Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            new Text(
+                            Text(
                               'FOLLOWERS',
-                              style: new TextStyle(
+                              style: TextStyle(
                                   fontSize: 10.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
-                            new Text(
+                            Text(
                               '3.5K',
-                              style: new TextStyle(
+                              style: TextStyle(
                                   fontSize: 10.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
-                        new SizedBox(
+                        SizedBox(
                           width: _width / 15,
                         ),
-                        new Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            new Text(
+                            Text(
                               'FOLLOWING',
-                              style: new TextStyle(
+                              style: TextStyle(
                                   fontSize: 10.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
-                            new Text(
+                            Text(
                               '1.9K',
-                              style: new TextStyle(
+                              style: TextStyle(
                                   fontSize: 10.0,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
@@ -232,55 +239,49 @@ class _ProfilState extends State<Profil> {
                       ],
                     ),
                   ),
-                  new Padding(
-                    padding: new EdgeInsets.only(
-                        top: _height / 2.8,
-                        left: _width / 20,
-                        right: _width / 20,
-                        bottom: _height / 8),
-                    child: new Container(
-                      child: new SingleChildScrollView(
-                        child: TextButton(
-                          onPressed: () {} , child: Text('Post'),
-                        ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Container(
+                      child: SingleChildScrollView(
+                        child: Text(''),
                       ),
                     ),
                   ),
-                  new Align(
+                  Align(
                     alignment: Alignment.bottomCenter,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        new Container(
+                        Container(
 //                          height: _height / 4,
                           margin: EdgeInsets.only(
                               left: _width / 20, right: _width / 20),
-                          decoration: new BoxDecoration(
+                          decoration: BoxDecoration(
                               color: Colors.white,
                               boxShadow: [
-                                new BoxShadow(
+                                BoxShadow(
                                     color: Colors.black.withAlpha(70),
                                     offset: const Offset(0.0, -10.0),
                                     blurRadius: 10.0),
                               ],
-                              borderRadius: new BorderRadius.all(
-                                  new Radius.circular(5.0))),
-                          padding: new EdgeInsets.all(_width / 40),
-                          child: new Column(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0))),
+                          padding: EdgeInsets.all(_width / 40),
+                          child: Column(
                             children: <Widget>[
-                              new Row(
+                              Row(
                                 children: <Widget>[
-                                  new Text(
-                                    'MOVIES',
-                                    style: new TextStyle(
+                                  Text(
+                                    'HOUSES',
+                                    style: TextStyle(
                                         fontSize: 10.0,
                                         color: Colors.black54,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                  new Expanded(
-                                    child: new Text(
+                                  Expanded(
+                                    child: Text(
                                       '...',
-                                      style: new TextStyle(
+                                      style: TextStyle(
                                           fontSize: 10.0,
                                           color: Colors.black54,
                                           fontWeight: FontWeight.bold),
@@ -289,18 +290,18 @@ class _ProfilState extends State<Profil> {
                                   )
                                 ],
                               ),
-                              new Container(
+                              Container(
                                 height: _height / 5,
-                                child: new ListView.builder(
+                                child: ListView.builder(
                                   itemBuilder: (context, index) {
-                                    return new Container(
+                                    return Container(
                                         width: _width / 4,
                                         height: _height / 6,
-                                        margin: new EdgeInsets.all(_width / 40),
+                                        margin: EdgeInsets.all(_width / 40),
                                         decoration: BoxDecoration(
-                                            borderRadius: new BorderRadius.all(
-                                                new Radius.circular(5.0)),
-                                            image: new DecorationImage(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5.0)),
+                                            image: DecorationImage(
                                                 image: NetworkImage(
                                                     '${list[index % list.length]}'),
                                                 fit: BoxFit.cover)));
@@ -311,7 +312,7 @@ class _ProfilState extends State<Profil> {
                             ],
                           ),
                         ),
-                        new SizedBox(
+                        SizedBox(
                           height: _height / 40,
                         )
                       ],
@@ -334,15 +335,15 @@ class SHLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return new Container(
-      padding: new EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
+    return Container(
+      padding: EdgeInsets.fromLTRB(10.0, 4.0, 10.0, 4.0),
       child: Text(
         label!,
-        style: new TextStyle(fontSize: 10.0, color: Colors.white),
+        style: TextStyle(fontSize: 10.0, color: Colors.white),
       ),
-      decoration: new BoxDecoration(
+      decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.4),
-          borderRadius: BorderRadius.all(new Radius.circular(8.0))),
+          borderRadius: BorderRadius.all(Radius.circular(8.0))),
       margin: EdgeInsets.only(right: 4.0),
     );
   }

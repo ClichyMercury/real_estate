@@ -3,6 +3,8 @@ import 'package:real_estate/views/home/data.dart';
 import 'package:real_estate/views/home/filter.dart';
 import 'package:real_estate/views/home/detail.dart';
 
+import '../profil/publish.dart';
+
 class Search extends StatefulWidget {
   const Search({
     Key? key,
@@ -158,6 +160,19 @@ class _SearchState extends State<Search> {
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
+                ),
+                SizedBox(
+                  width: 105,
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: ((context) => publish()),
+                      ),
+                    );
+                  },
+                  icon: Icon(Icons.add),
                 ),
               ],
             ),
