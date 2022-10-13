@@ -94,7 +94,7 @@ List<OfficesProperty> getOfficesPropertyList() {
         "assets/images/appleCampus.jpg",
         "assets/images/philipsTower.jpg",
         "assets/images/bureau.jpg",
-        "ssets/images/empirestateBulding.jpg",
+        "assets/images/empirestateBulding.jpg",
       ],
     ),
     OfficesProperty(

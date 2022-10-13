@@ -70,7 +70,7 @@ List<Property> getPropertyList() {
     ),
     Property(
       "RENT",
-      "JCDecaux WorkSpaces",
+      "JCD WorkSpaces",
       "150.000",
       "Boston",
       "650",
