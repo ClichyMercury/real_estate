@@ -162,7 +162,7 @@ class _SearchState extends State<Search> {
                   ),
                 ),
                 SizedBox(
-                  width: 105,
+                  width: 5,
                 ),
                 IconButton(
                   onPressed: () {
@@ -172,7 +172,7 @@ class _SearchState extends State<Search> {
                       ),
                     );
                   },
-                  icon: Icon(Icons.add),
+                  icon: Icon(Icons.add_rounded),
                 ),
               ],
             ),
